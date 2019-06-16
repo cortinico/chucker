@@ -39,9 +39,9 @@ internal class TransactionPayloadFragment : Fragment(), TransactionFragment, Sea
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.chucker_fragment_transaction_payload, container, false)
         headers = view.findViewById(R.id.headers)
@@ -86,7 +86,8 @@ internal class TransactionPayloadFragment : Fragment(), TransactionFragment, Sea
 
     private fun setBodyText(type: Int, transaction: HttpTransaction) {
         if (type == TYPE_REQUEST && !transaction.isRequestBodyPlainText ||
-                type == TYPE_RESPONSE && !transaction.isResponseBodyPlainText) {
+            type == TYPE_RESPONSE && !transaction.isResponseBodyPlainText
+        ) {
             body.text = getString(R.string.chucker_body_omitted)
             body.visibility = View.VISIBLE
         } else {
@@ -127,7 +128,7 @@ internal class TransactionPayloadFragment : Fragment(), TransactionFragment, Sea
         }
 
         private class FormattedBodyTask(
-                fragment: TransactionPayloadFragment
+            fragment: TransactionPayloadFragment
         ) : AsyncTask<HttpTransaction, Unit, String>() {
 
             private val fragment: WeakReference<TransactionPayloadFragment> = WeakReference(fragment)
