@@ -1,34 +1,23 @@
-/*
- * Copyright (C) 2017 Jeff Gilfelt.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.chuckerteam.chucker.api.internal.ui.transaction
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.SearchView
 import android.text.Html
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.chuckerteam.chucker.R
 import com.chuckerteam.chucker.api.internal.data.entity.HttpTransaction
 import com.chuckerteam.chucker.api.internal.support.highlight
+import java.lang.ref.WeakReference
 
 private const val ARG_TYPE = "type"
 
@@ -36,6 +25,7 @@ internal class TransactionPayloadFragment : Fragment(), TransactionFragment, Sea
 
     internal lateinit var headers: TextView
     internal lateinit var body: TextView
+    internal lateinit var progressBody: ProgressBar
 
     private var type: Int = 0
     private var transaction: HttpTransaction? = null
@@ -49,13 +39,14 @@ internal class TransactionPayloadFragment : Fragment(), TransactionFragment, Sea
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.chucker_fragment_transaction_payload, container, false)
-        headers = view.findViewById<View>(R.id.headers) as TextView
-        body = view.findViewById<View>(R.id.body) as TextView
+        headers = view.findViewById(R.id.headers)
+        body = view.findViewById(R.id.body)
+        progressBody = view.findViewById(R.id.progress_body)
         return view
     }
 
@@ -82,31 +73,31 @@ internal class TransactionPayloadFragment : Fragment(), TransactionFragment, Sea
     }
 
     private fun populateUI() {
-        if (isAdded && transaction != null) {
-            when (type) {
-                TYPE_REQUEST -> setText(
-                    transaction!!.getRequestHeadersString(true),
-                    transaction!!.getFormattedRequestBody(),
-                    transaction!!.isRequestBodyPlainText
-                )
-                TYPE_RESPONSE -> setText(
-                    transaction!!.getResponseHeadersString(true),
-                    transaction!!.getFormattedResponseBody(),
-                    transaction!!.isResponseBodyPlainText
-                )
+        transaction?.let {
+            if (isAdded) {
+                setBodyText(type, it)
+                when (type) {
+                    TYPE_REQUEST -> setHeaderText(it.getRequestHeadersString(true))
+                    TYPE_RESPONSE -> setHeaderText(it.getResponseHeadersString(true))
+                }
             }
         }
     }
 
-    private fun setText(headersString: String, bodyString: String?, isPlainText: Boolean) {
+    private fun setBodyText(type: Int, transaction: HttpTransaction) {
+        if (type == TYPE_REQUEST && !transaction.isRequestBodyPlainText ||
+                type == TYPE_RESPONSE && !transaction.isResponseBodyPlainText) {
+            body.text = getString(R.string.chucker_body_omitted)
+            body.visibility = View.VISIBLE
+        } else {
+            Log.e("NCO", "startingTask")
+            FormattedBodyTask(this).execute(transaction)
+        }
+    }
+
+    private fun setHeaderText(headersString: String) {
         headers.visibility = if (TextUtils.isEmpty(headersString)) View.GONE else View.VISIBLE
         headers.text = Html.fromHtml(headersString)
-        if (!isPlainText) {
-            body.text = getString(R.string.chucker_body_omitted)
-        } else {
-            body.text = bodyString
-        }
-        originalBody = body.text.toString()
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
@@ -124,7 +115,6 @@ internal class TransactionPayloadFragment : Fragment(), TransactionFragment, Sea
     companion object {
 
         const val TYPE_REQUEST = 0
-
         const val TYPE_RESPONSE = 1
 
         @JvmStatic
@@ -132,6 +122,39 @@ internal class TransactionPayloadFragment : Fragment(), TransactionFragment, Sea
             return TransactionPayloadFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_TYPE, type)
+                }
+            }
+        }
+
+        private class FormattedBodyTask(
+                fragment: TransactionPayloadFragment
+        ) : AsyncTask<HttpTransaction, Unit, String>() {
+
+            private val fragment: WeakReference<TransactionPayloadFragment> = WeakReference(fragment)
+            private val type: Int = fragment.arguments?.getInt(ARG_TYPE) ?: 0
+
+            override fun onPreExecute() {
+                fragment.get()?.let {
+                    it.progressBody.visibility = View.VISIBLE
+                    it.body.visibility = View.GONE
+                }
+            }
+
+            override fun doInBackground(vararg transactions: HttpTransaction): String {
+                if (transactions.size == 1) {
+                    return when (type) {
+                        TYPE_REQUEST -> transactions[0].getFormattedRequestBody()
+                        else -> transactions[0].getFormattedResponseBody()
+                    }
+                }
+                return ""
+            }
+
+            override fun onPostExecute(result: String) {
+                fragment.get()?.let {
+                    it.progressBody.visibility = View.GONE
+                    it.body.visibility = View.VISIBLE
+                    it.body.text = result
                 }
             }
         }
