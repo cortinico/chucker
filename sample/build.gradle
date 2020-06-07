@@ -42,7 +42,6 @@ android {
 }
 
 dependencies {
-    debugImplementation "com.github.chuckerteam.chucker:library:3.2.0"
     implementation project(":api")
 
     implementation "com.google.android.material:material:$materialComponentsVersion"

@@ -17,9 +17,9 @@ android {
 }
 
 dependencies {
-    debugApi "com.github.chuckerteam.chucker:library:3.2.0"
-    releaseApi "com.github.chuckerteam.chucker:library-no-op:3.2.0"
+    debugImplementation "com.github.chuckerteam.chucker:library:3.2.0"
 
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3Version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 }
 

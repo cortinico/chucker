@@ -1,11 +1,8 @@
 package com.chuckerteam.chucker.sample
 
 import android.content.Context
-import com.chuckerteam.chucker.api.Chucker
-import com.chuckerteam.chucker.api.ChuckerCollector
-import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.chuckerteam.chucker.api.RetentionManager
 import com.chuckerteam.chucker.sample.HttpBinApi.Data
+import com.chuckerteam.chucker.sample.api.InterceptorProvider
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,25 +19,16 @@ class HttpBinClient(
     context: Context
 ) {
 
-    private val collector = ChuckerCollector(
-        context = context,
-        showNotification = true,
-        retentionPeriod = RetentionManager.Period.ONE_HOUR
-    )
-
-    private val chuckerInterceptor = ChuckerInterceptor(
-        context = context,
-        collector = collector,
-        maxContentLength = 250000L,
-        headersToRedact = emptySet<String>()
-    )
-
-    private val httpClient =
-        OkHttpClient.Builder()
-            // Add a ChuckerInterceptor instance to your OkHttp client
+    private val httpClient by lazy {
+        val builder = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .addInterceptor(chuckerInterceptor)
-            .build()
+
+        // Add a ChuckerInterceptor instance to your OkHttp client
+        InterceptorProvider.provideInterceptor(context)?.let {
+            builder.addInterceptor(it)
+        }
+        builder.build()
+    }
 
     private val api: HttpBinApi by lazy {
         Retrofit.Builder()
@@ -95,16 +83,6 @@ class HttpBinClient(
         }
         downloadSampleImage(colorHex = "fff")
         downloadSampleImage(colorHex = "000")
-    }
-
-    internal fun initializeCrashHandler() {
-        Chucker.registerDefaultCrashHandler(collector)
-    }
-
-    internal fun recordException() {
-        collector.onError("Example button pressed", RuntimeException("User triggered the button"))
-        // You can also throw exception, it will be caught thanks to "Chucker.registerDefaultCrashHandler"
-        // throw new RuntimeException("User triggered the button");
     }
 
     private fun downloadSampleImage(colorHex: String) {
