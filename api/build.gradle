@@ -1,0 +1,26 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        versionName VERSION_NAME
+        versionCode VERSION_CODE.toInteger()
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    debugApi "com.github.chuckerteam.chucker:library:3.2.0"
+    releaseApi "com.github.chuckerteam.chucker:library-no-op:3.2.0"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
