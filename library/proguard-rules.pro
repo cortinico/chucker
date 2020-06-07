@@ -1,1 +1,0 @@
--keep class com.chuckerteam.chucker.internal.data.entity.HttpTransaction { *; }
