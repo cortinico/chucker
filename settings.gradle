@@ -1,1 +1,3 @@
+enableFeaturePreview('ONE_LOCKFILE_PER_PROJECT')
+
 include ':sample', ':library', ':library-no-op'
