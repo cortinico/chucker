@@ -49,7 +49,14 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktLintGradleVersion"
+        classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.2.4"
     }
+}
+apply plugin: 'binary-compatibility-validator'
+
+apiValidation {
+    ignoredProjects += ["sample", "library-no-op"]
+    ignoredPackages += ["com.chuckerteam.chucker.internal"]
 }
 
 allprojects {

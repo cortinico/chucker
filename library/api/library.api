@@ -1,0 +1,175 @@
+public final class com/chuckerteam/chucker/BuildConfig {
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+
+public final class com/chuckerteam/chucker/api/Chucker {
+	public static final field INSTANCE Lcom/chuckerteam/chucker/api/Chucker;
+	public static final fun dismissNotifications (Landroid/content/Context;)V
+	public static final fun getLaunchIntent (Landroid/content/Context;)Landroid/content/Intent;
+	public final fun isOp ()Z
+}
+
+public final class com/chuckerteam/chucker/api/ChuckerCollector {
+	public fun <init> (Landroid/content/Context;)V
+	public fun <init> (Landroid/content/Context;Z)V
+	public fun <init> (Landroid/content/Context;ZLcom/chuckerteam/chucker/api/RetentionManager$Period;)V
+	public synthetic fun <init> (Landroid/content/Context;ZLcom/chuckerteam/chucker/api/RetentionManager$Period;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getShowNotification ()Z
+	public final fun setShowNotification (Z)V
+}
+
+public final class com/chuckerteam/chucker/api/ChuckerInterceptor : okhttp3/Interceptor {
+	public fun <init> (Landroid/content/Context;)V
+	public synthetic fun <init> (Lcom/chuckerteam/chucker/api/ChuckerInterceptor$Builder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
+	public final fun redactHeader ([Ljava/lang/String;)V
+}
+
+public final class com/chuckerteam/chucker/api/ChuckerInterceptor$Builder {
+	public fun <init> (Landroid/content/Context;)V
+	public final fun alwaysReadResponseBody (Z)Lcom/chuckerteam/chucker/api/ChuckerInterceptor$Builder;
+	public final fun build ()Lcom/chuckerteam/chucker/api/ChuckerInterceptor;
+	public final fun collector (Lcom/chuckerteam/chucker/api/ChuckerCollector;)Lcom/chuckerteam/chucker/api/ChuckerInterceptor$Builder;
+	public final fun maxContentLength (J)Lcom/chuckerteam/chucker/api/ChuckerInterceptor$Builder;
+	public final fun redactHeaders (Ljava/lang/Iterable;)Lcom/chuckerteam/chucker/api/ChuckerInterceptor$Builder;
+	public final fun redactHeaders ([Ljava/lang/String;)Lcom/chuckerteam/chucker/api/ChuckerInterceptor$Builder;
+}
+
+public final class com/chuckerteam/chucker/api/RetentionManager {
+	public fun <init> (Landroid/content/Context;)V
+	public fun <init> (Landroid/content/Context;Lcom/chuckerteam/chucker/api/RetentionManager$Period;)V
+	public synthetic fun <init> (Landroid/content/Context;Lcom/chuckerteam/chucker/api/RetentionManager$Period;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/chuckerteam/chucker/api/RetentionManager$Period : java/lang/Enum {
+	public static final field FOREVER Lcom/chuckerteam/chucker/api/RetentionManager$Period;
+	public static final field ONE_DAY Lcom/chuckerteam/chucker/api/RetentionManager$Period;
+	public static final field ONE_HOUR Lcom/chuckerteam/chucker/api/RetentionManager$Period;
+	public static final field ONE_WEEK Lcom/chuckerteam/chucker/api/RetentionManager$Period;
+	public static fun valueOf (Ljava/lang/String;)Lcom/chuckerteam/chucker/api/RetentionManager$Period;
+	public static fun values ()[Lcom/chuckerteam/chucker/api/RetentionManager$Period;
+}
+
+public final class com/chuckerteam/chucker/databinding/ChuckerActivityMainBinding : androidx/viewbinding/ViewBinding {
+	public final field appBarLayout Lcom/google/android/material/appbar/AppBarLayout;
+	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
+	public final field transactionsRecyclerView Landroidx/recyclerview/widget/RecyclerView;
+	public final field tutorialDescription Landroid/widget/TextView;
+	public final field tutorialGroup Landroidx/constraintlayout/widget/Group;
+	public final field tutorialLink Landroid/widget/TextView;
+	public final field tutorialTitle Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lcom/chuckerteam/chucker/databinding/ChuckerActivityMainBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/constraintlayout/widget/ConstraintLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/chuckerteam/chucker/databinding/ChuckerActivityMainBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/chuckerteam/chucker/databinding/ChuckerActivityMainBinding;
+}
+
+public final class com/chuckerteam/chucker/databinding/ChuckerActivityTransactionBinding : androidx/viewbinding/ViewBinding {
+	public final field tabLayout Lcom/google/android/material/tabs/TabLayout;
+	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
+	public final field toolbarTitle Landroid/widget/TextView;
+	public final field viewPager Landroidx/viewpager/widget/ViewPager;
+	public static fun bind (Landroid/view/View;)Lcom/chuckerteam/chucker/databinding/ChuckerActivityTransactionBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/coordinatorlayout/widget/CoordinatorLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/chuckerteam/chucker/databinding/ChuckerActivityTransactionBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/chuckerteam/chucker/databinding/ChuckerActivityTransactionBinding;
+}
+
+public final class com/chuckerteam/chucker/databinding/ChuckerFragmentTransactionOverviewBinding : androidx/viewbinding/ViewBinding {
+	public final field barrierRequestSize Landroidx/constraintlayout/widget/Barrier;
+	public final field barrierRequestTime Landroidx/constraintlayout/widget/Barrier;
+	public final field barrierResponseSize Landroidx/constraintlayout/widget/Barrier;
+	public final field barrierResponseTime Landroidx/constraintlayout/widget/Barrier;
+	public final field cipherSuite Landroid/widget/TextView;
+	public final field cipherSuiteGroup Landroidx/constraintlayout/widget/Group;
+	public final field cipherSuiteValue Landroid/widget/TextView;
+	public final field duration Landroid/widget/TextView;
+	public final field method Landroid/widget/TextView;
+	public final field overviewGuideline Landroidx/constraintlayout/widget/Guideline;
+	public final field protocol Landroid/widget/TextView;
+	public final field requestSize Landroid/widget/TextView;
+	public final field requestSizeLabel Landroid/widget/TextView;
+	public final field requestTime Landroid/widget/TextView;
+	public final field requestTimeLabel Landroid/widget/TextView;
+	public final field response Landroid/widget/TextView;
+	public final field responseSize Landroid/widget/TextView;
+	public final field responseSizeLabel Landroid/widget/TextView;
+	public final field responseTime Landroid/widget/TextView;
+	public final field responseTimeLabel Landroid/widget/TextView;
+	public final field ssl Landroid/widget/TextView;
+	public final field sslGroup Landroidx/constraintlayout/widget/Group;
+	public final field sslValue Landroid/widget/TextView;
+	public final field status Landroid/widget/TextView;
+	public final field tlsGroup Landroidx/constraintlayout/widget/Group;
+	public final field tlsVersion Landroid/widget/TextView;
+	public final field tlsVersionValue Landroid/widget/TextView;
+	public final field totalSize Landroid/widget/TextView;
+	public final field url Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lcom/chuckerteam/chucker/databinding/ChuckerFragmentTransactionOverviewBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/ScrollView;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/chuckerteam/chucker/databinding/ChuckerFragmentTransactionOverviewBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/chuckerteam/chucker/databinding/ChuckerFragmentTransactionOverviewBinding;
+}
+
+public final class com/chuckerteam/chucker/databinding/ChuckerFragmentTransactionPayloadBinding : androidx/viewbinding/ViewBinding {
+	public final field emptyPayloadImage Landroid/widget/ImageView;
+	public final field emptyPayloadTextView Landroid/widget/TextView;
+	public final field emptyStateGroup Landroidx/constraintlayout/widget/Group;
+	public final field loadingProgress Landroidx/core/widget/ContentLoadingProgressBar;
+	public final field payloadRecyclerView Landroidx/recyclerview/widget/RecyclerView;
+	public static fun bind (Landroid/view/View;)Lcom/chuckerteam/chucker/databinding/ChuckerFragmentTransactionPayloadBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/constraintlayout/widget/ConstraintLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/chuckerteam/chucker/databinding/ChuckerFragmentTransactionPayloadBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/chuckerteam/chucker/databinding/ChuckerFragmentTransactionPayloadBinding;
+}
+
+public final class com/chuckerteam/chucker/databinding/ChuckerListItemTransactionBinding : androidx/viewbinding/ViewBinding {
+	public final field code Landroid/widget/TextView;
+	public final field duration Landroid/widget/TextView;
+	public final field guideline Landroidx/constraintlayout/widget/Guideline;
+	public final field host Landroid/widget/TextView;
+	public final field path Landroid/widget/TextView;
+	public final field size Landroid/widget/TextView;
+	public final field ssl Landroid/widget/ImageView;
+	public final field timeStart Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lcom/chuckerteam/chucker/databinding/ChuckerListItemTransactionBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/constraintlayout/widget/ConstraintLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/chuckerteam/chucker/databinding/ChuckerListItemTransactionBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/chuckerteam/chucker/databinding/ChuckerListItemTransactionBinding;
+}
+
+public final class com/chuckerteam/chucker/databinding/ChuckerTransactionItemBodyLineBinding : androidx/viewbinding/ViewBinding {
+	public final field bodyLine Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lcom/chuckerteam/chucker/databinding/ChuckerTransactionItemBodyLineBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/TextView;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/chuckerteam/chucker/databinding/ChuckerTransactionItemBodyLineBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/chuckerteam/chucker/databinding/ChuckerTransactionItemBodyLineBinding;
+}
+
+public final class com/chuckerteam/chucker/databinding/ChuckerTransactionItemHeadersBinding : androidx/viewbinding/ViewBinding {
+	public final field responseHeaders Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lcom/chuckerteam/chucker/databinding/ChuckerTransactionItemHeadersBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/TextView;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/chuckerteam/chucker/databinding/ChuckerTransactionItemHeadersBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/chuckerteam/chucker/databinding/ChuckerTransactionItemHeadersBinding;
+}
+
+public final class com/chuckerteam/chucker/databinding/ChuckerTransactionItemImageBinding : androidx/viewbinding/ViewBinding {
+	public final field binaryData Landroid/widget/ImageView;
+	public static fun bind (Landroid/view/View;)Lcom/chuckerteam/chucker/databinding/ChuckerTransactionItemImageBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/FrameLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/chuckerteam/chucker/databinding/ChuckerTransactionItemImageBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/chuckerteam/chucker/databinding/ChuckerTransactionItemImageBinding;
+}
+
