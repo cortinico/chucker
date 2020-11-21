@@ -56,4 +56,7 @@ public class ChuckerCollector @JvmOverloads constructor(
             notificationHelper.show(transaction)
         }
     }
+
+    public fun clear() {
+    }
 }
