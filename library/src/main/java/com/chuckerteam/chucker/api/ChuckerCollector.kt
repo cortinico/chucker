@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  */
 public class ChuckerCollector @JvmOverloads constructor(
     context: Context,
-    public var showNotification: Boolean = true,
+    public val showNotification: Boolean = true,
     retentionPeriod: RetentionManager.Period = RetentionManager.Period.ONE_WEEK
 ) {
     private val retentionManager: RetentionManager = RetentionManager(context, retentionPeriod)
