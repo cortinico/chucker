@@ -1,0 +1,29 @@
+import me.champeau.gradle.japicmp.JapicmpTask
+
+apply plugin: "me.champeau.gradle.japicmp"
+
+configurations {
+    latest
+    baseline
+}
+
+dependencies {
+    baseline project(path: ":library", configuration: 'default')
+    latest("com.github.chuckerteam.chucker:library:3.4.0") {
+        transitive = false
+        force = true
+    }
+}
+
+tasks.register("japiCmpCustom", JapicmpTask) {
+    oldClasspath = getJarClasses(project, configurations.latest)
+    newClasspath = getJarClasses(project, configurations.baseline)
+    htmlOutputFile = file("$buildDir/reports/japi.html")
+    failOnModification = true
+    ignoreMissingClasses = true
+    packageIncludes = ["com.chuckerteam.chucker.api"]
+}
+
+def getJarClasses(project, configuration) {
+    return project.files(project.zipTree(configuration.files.first()).matching {include "classes.jar"}.first())
+}

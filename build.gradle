@@ -49,6 +49,7 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktLintGradleVersion"
+        classpath "me.champeau.gradle:japicmp-gradle-plugin:0.2.9"
     }
 }
 
