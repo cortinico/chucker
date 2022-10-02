@@ -1,0 +1,145 @@
+public abstract interface class com/chuckerteam/chucker/api/datamodel/HttpBody {
+}
+
+public final class com/chuckerteam/chucker/api/datamodel/HttpBody$Decoded : com/chuckerteam/chucker/api/datamodel/HttpBody {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/chuckerteam/chucker/api/datamodel/HttpBody$Decoded;
+	public static synthetic fun copy$default (Lcom/chuckerteam/chucker/api/datamodel/HttpBody$Decoded;Ljava/lang/String;ILjava/lang/Object;)Lcom/chuckerteam/chucker/api/datamodel/HttpBody$Decoded;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/chuckerteam/chucker/api/datamodel/HttpBody$Encoded : com/chuckerteam/chucker/api/datamodel/HttpBody {
+	public fun <init> ([B)V
+	public final fun component1 ()[B
+	public final fun copy ([B)Lcom/chuckerteam/chucker/api/datamodel/HttpBody$Encoded;
+	public static synthetic fun copy$default (Lcom/chuckerteam/chucker/api/datamodel/HttpBody$Encoded;[BILjava/lang/Object;)Lcom/chuckerteam/chucker/api/datamodel/HttpBody$Encoded;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()[B
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/chuckerteam/chucker/api/datamodel/HttpCall {
+	public fun <init> (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/chuckerteam/chucker/api/datamodel/HttpRequest;Lcom/chuckerteam/chucker/api/datamodel/HttpResponse;JLjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component10 ()J
+	public final fun component11 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Lcom/chuckerteam/chucker/api/datamodel/HttpRequest;
+	public final fun component9 ()Lcom/chuckerteam/chucker/api/datamodel/HttpResponse;
+	public final fun copy (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/chuckerteam/chucker/api/datamodel/HttpRequest;Lcom/chuckerteam/chucker/api/datamodel/HttpResponse;JLjava/lang/String;)Lcom/chuckerteam/chucker/api/datamodel/HttpCall;
+	public static synthetic fun copy$default (Lcom/chuckerteam/chucker/api/datamodel/HttpCall;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/chuckerteam/chucker/api/datamodel/HttpRequest;Lcom/chuckerteam/chucker/api/datamodel/HttpResponse;JLjava/lang/String;ILjava/lang/Object;)Lcom/chuckerteam/chucker/api/datamodel/HttpCall;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getError ()Ljava/lang/String;
+	public final fun getHost ()Ljava/lang/String;
+	public final fun getId ()J
+	public final fun getMethod ()Ljava/lang/String;
+	public final fun getPath ()Ljava/lang/String;
+	public final fun getProtocol ()Ljava/lang/String;
+	public final fun getRequest ()Lcom/chuckerteam/chucker/api/datamodel/HttpRequest;
+	public final fun getResponse ()Lcom/chuckerteam/chucker/api/datamodel/HttpResponse;
+	public final fun getScheme ()Ljava/lang/String;
+	public final fun getTookMs ()J
+	public final fun getUrl ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/chuckerteam/chucker/api/datamodel/HttpHeader {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/chuckerteam/chucker/api/datamodel/HttpHeader;
+	public static synthetic fun copy$default (Lcom/chuckerteam/chucker/api/datamodel/HttpHeader;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/chuckerteam/chucker/api/datamodel/HttpHeader;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/chuckerteam/chucker/api/datamodel/HttpRequest {
+	public fun <init> (JLjava/util/List;JLcom/chuckerteam/chucker/api/datamodel/HttpBody;JJLjava/lang/String;Ljava/lang/String;JZZLjava/lang/String;)V
+	public synthetic fun <init> (JLjava/util/List;JLcom/chuckerteam/chucker/api/datamodel/HttpBody;JJLjava/lang/String;Ljava/lang/String;JZZLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component10 ()Z
+	public final fun component11 ()Z
+	public final fun component12 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()J
+	public final fun component4 ()Lcom/chuckerteam/chucker/api/datamodel/HttpBody;
+	public final fun component5 ()J
+	public final fun component6 ()J
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun component9 ()J
+	public final fun copy (JLjava/util/List;JLcom/chuckerteam/chucker/api/datamodel/HttpBody;JJLjava/lang/String;Ljava/lang/String;JZZLjava/lang/String;)Lcom/chuckerteam/chucker/api/datamodel/HttpRequest;
+	public static synthetic fun copy$default (Lcom/chuckerteam/chucker/api/datamodel/HttpRequest;JLjava/util/List;JLcom/chuckerteam/chucker/api/datamodel/HttpBody;JJLjava/lang/String;Ljava/lang/String;JZZLjava/lang/String;ILjava/lang/Object;)Lcom/chuckerteam/chucker/api/datamodel/HttpRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBody ()Lcom/chuckerteam/chucker/api/datamodel/HttpBody;
+	public final fun getContentType ()Ljava/lang/String;
+	public final fun getDate ()J
+	public final fun getGraphQlDetected ()Z
+	public final fun getGraphQlOperationName ()Ljava/lang/String;
+	public final fun getHeaders ()Ljava/lang/String;
+	public final fun getHeadersSize ()J
+	public final fun getId ()J
+	public final fun getPayloadSize ()J
+	public final fun getRedactedHeaders ()Ljava/util/List;
+	public final fun getUnredactedHeadersByteSize ()J
+	public fun hashCode ()I
+	public final fun isRequestBodyEncoded ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/chuckerteam/chucker/api/datamodel/HttpResponse {
+	public fun <init> (JLjava/lang/String;Ljava/util/List;JLcom/chuckerteam/chucker/api/datamodel/HttpBody;JLjava/lang/String;Ljava/lang/String;ILjava/lang/String;JLjava/lang/String;Ljava/lang/String;JZ[B)V
+	public synthetic fun <init> (JLjava/lang/String;Ljava/util/List;JLcom/chuckerteam/chucker/api/datamodel/HttpBody;JLjava/lang/String;Ljava/lang/String;ILjava/lang/String;JLjava/lang/String;Ljava/lang/String;JZ[BILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component10 ()Ljava/lang/String;
+	public final fun component11 ()J
+	public final fun component12 ()Ljava/lang/String;
+	public final fun component13 ()Ljava/lang/String;
+	public final fun component14 ()J
+	public final fun component15 ()Z
+	public final fun component16 ()[B
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()J
+	public final fun component5 ()Lcom/chuckerteam/chucker/api/datamodel/HttpBody;
+	public final fun component6 ()J
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun component9 ()I
+	public final fun copy (JLjava/lang/String;Ljava/util/List;JLcom/chuckerteam/chucker/api/datamodel/HttpBody;JLjava/lang/String;Ljava/lang/String;ILjava/lang/String;JLjava/lang/String;Ljava/lang/String;JZ[B)Lcom/chuckerteam/chucker/api/datamodel/HttpResponse;
+	public static synthetic fun copy$default (Lcom/chuckerteam/chucker/api/datamodel/HttpResponse;JLjava/lang/String;Ljava/util/List;JLcom/chuckerteam/chucker/api/datamodel/HttpBody;JLjava/lang/String;Ljava/lang/String;ILjava/lang/String;JLjava/lang/String;Ljava/lang/String;JZ[BILjava/lang/Object;)Lcom/chuckerteam/chucker/api/datamodel/HttpResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBody ()Lcom/chuckerteam/chucker/api/datamodel/HttpBody;
+	public final fun getCipherSuite ()Ljava/lang/String;
+	public final fun getCode ()I
+	public final fun getContentType ()Ljava/lang/String;
+	public final fun getDate ()J
+	public final fun getHeaders ()Ljava/lang/String;
+	public final fun getHeadersSize ()J
+	public final fun getId ()J
+	public final fun getMessage ()Ljava/lang/String;
+	public final fun getMethod ()Ljava/lang/String;
+	public final fun getPayloadSize ()J
+	public final fun getRedactedHeaders ()Ljava/util/List;
+	public final fun getResponseImageData ()[B
+	public final fun getTlsVersion ()Ljava/lang/String;
+	public final fun getUnredactedHeadersByteSize ()J
+	public fun hashCode ()I
+	public final fun isResponseBodyEncoded ()Z
+	public fun toString ()Ljava/lang/String;
+}
+

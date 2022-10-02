@@ -26,7 +26,11 @@ publishing {
     publications {
         release(MavenPublication) {
             afterEvaluate {
-                from components.release
+                if (plugins.hasPlugin("com.android.library")) {
+                    from(components["release"])
+                } else {
+                    from(components["java"])
+                }
             }
             artifactId = project.name
             pom {

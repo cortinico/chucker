@@ -18,6 +18,6 @@ ktlint {
 }
 
 detekt {
-    config = files("../detekt-config.yml")
+    config = rootProject.files("detekt-config.yml")
     buildUponDefaultConfig = true
 }
