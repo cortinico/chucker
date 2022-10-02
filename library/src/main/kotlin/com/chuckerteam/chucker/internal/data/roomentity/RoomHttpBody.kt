@@ -1,6 +1,6 @@
-package com.chuckerteam.chucker.api.datamodel
+package com.chuckerteam.chucker.internal.data.roomentity
 
-sealed interface HttpBody {
-    data class Decoded(val value: String) : HttpBody
-    data class Encoded(val value: ByteArray) : HttpBody
+internal sealed interface RoomHttpBody {
+    data class Decoded(val value: String) : RoomHttpBody
+    data class Encoded(val value: ByteArray) : RoomHttpBody
 }

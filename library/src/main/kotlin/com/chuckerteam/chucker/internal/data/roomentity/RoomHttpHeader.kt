@@ -1,6 +1,6 @@
-package com.chuckerteam.chucker.api.datamodel
+package com.chuckerteam.chucker.internal.data.roomentity
 
-data class HttpHeader(
+internal data class RoomHttpHeader(
     val name: String,
     val value: String
 )

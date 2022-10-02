@@ -1,10 +1,10 @@
-package com.chuckerteam.chucker.api.datamodel
+package com.chuckerteam.chucker.internal.data.roomentity
 
-data class HttpRequest(
+internal data class RoomHttpRequest(
     val id: Long,
-    val redactedHeaders: List<HttpHeader>,
+    val redactedHeaders: List<RoomHttpHeader>,
     val unredactedHeadersByteSize: Long,
-    val body: HttpBody,
+    val body: RoomHttpBody,
     val date: Long,
     val payloadSize: Long,
     val contentType: String,

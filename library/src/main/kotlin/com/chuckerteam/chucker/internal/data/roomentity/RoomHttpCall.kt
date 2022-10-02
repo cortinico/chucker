@@ -1,6 +1,6 @@
-package com.chuckerteam.chucker.api.datamodel
+package com.chuckerteam.chucker.internal.data.roomentity
 
-data class HttpCall(
+internal data class RoomHttpCall(
     val id: Long,
     val url: String,
     val host: String,
@@ -8,8 +8,8 @@ data class HttpCall(
     val scheme: String,
     val error: String,
     val method: String,
-    val request: HttpRequest,
-    val response: HttpResponse,
+    val request: RoomHttpRequest,
+    val response: RoomHttpResponse,
     val tookMs: Long,
     val protocol: String
 )

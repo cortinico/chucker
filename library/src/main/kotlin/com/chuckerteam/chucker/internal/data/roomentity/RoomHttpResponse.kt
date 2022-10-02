@@ -1,11 +1,11 @@
-package com.chuckerteam.chucker.api.datamodel
+package com.chuckerteam.chucker.internal.data.roomentity
 
-data class HttpResponse(
+internal data class RoomHttpResponse(
     val id: Long,
     val method: String,
-    val redactedHeaders: List<HttpHeader>,
+    val redactedHeaders: List<RoomHttpHeader>,
     val unredactedHeadersByteSize: Long,
-    val body: HttpBody?,
+    val body: RoomHttpBody,
     val date: Long,
     val tlsVersion: String,
     val cipherSuite: String,
