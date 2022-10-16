@@ -1,6 +1,6 @@
 package com.chuckerteam.chucker.internal.support
 
-import com.chuckerteam.chucker.internal.data.entity.HttpHeader
+import com.chuckerteam.chucker.api.datamodel.HttpHeader
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import org.w3c.dom.Document

@@ -12,9 +12,9 @@ import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chuckerteam.chucker.R
+import com.chuckerteam.chucker.api.datamodel.HttpTransactionStatus
+import com.chuckerteam.chucker.api.datamodel.HttpTransactionTuple
 import com.chuckerteam.chucker.databinding.ChuckerListItemTransactionBinding
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
-import com.chuckerteam.chucker.internal.data.entity.HttpTransactionTuple
 import com.chuckerteam.chucker.internal.support.TransactionDiffCallback
 import java.text.DateFormat
 import javax.net.ssl.HttpsURLConnection
@@ -74,8 +74,8 @@ internal class TransactionAdapter internal constructor(
 
                 setProtocolImage(if (transaction.isSsl) ProtocolResources.Https() else ProtocolResources.Http())
 
-                if (transaction.status === HttpTransaction.Status.Complete) {
-                    code.text = transaction.responseCode.toString()
+                if (transaction.status === HttpTransactionStatus.Completed) {
+                    code.text = transaction.code.toString()
                     duration.text = transaction.durationString
                     size.text = transaction.totalSizeString
                 } else {
@@ -83,7 +83,7 @@ internal class TransactionAdapter internal constructor(
                     duration.text = ""
                     size.text = ""
                 }
-                if (transaction.status === HttpTransaction.Status.Failed) {
+                if (transaction.status === HttpTransactionStatus.Failed) {
                     code.text = "!!!"
                 }
             }
@@ -106,12 +106,11 @@ internal class TransactionAdapter internal constructor(
 
         private fun setStatusColor(transaction: HttpTransactionTuple) {
             val color: Int = when {
-                (transaction.status === HttpTransaction.Status.Failed) -> colorError
-                (transaction.status === HttpTransaction.Status.Requested) -> colorRequested
-                (transaction.responseCode == null) -> colorDefault
-                (transaction.responseCode!! >= HttpsURLConnection.HTTP_INTERNAL_ERROR) -> color500
-                (transaction.responseCode!! >= HttpsURLConnection.HTTP_BAD_REQUEST) -> color400
-                (transaction.responseCode!! >= HttpsURLConnection.HTTP_MULT_CHOICE) -> color300
+                (transaction.status === HttpTransactionStatus.Failed) -> colorError
+                (transaction.status === HttpTransactionStatus.Requested) -> colorRequested
+                (transaction.code >= HttpsURLConnection.HTTP_INTERNAL_ERROR) -> color500
+                (transaction.code >= HttpsURLConnection.HTTP_BAD_REQUEST) -> color400
+                (transaction.code >= HttpsURLConnection.HTTP_MULT_CHOICE) -> color300
                 else -> colorDefault
             }
             itemBinding.code.setTextColor(color)

@@ -1,20 +1,17 @@
 package com.chuckerteam.chucker.api.datamodel
 
 data class HttpResponse(
-    val id: Long,
-    val method: String,
-    val redactedHeaders: List<HttpHeader>,
-    val unredactedHeadersByteSize: Long,
-    val body: HttpBody,
+    // Mutable as the body will be populated once it has been processed by the whole interceptor chain.
+    var body: HttpBody? = null,
     val date: Long,
-    val tlsVersion: String,
-    val cipherSuite: String,
+    var headersSize: Long,
+    val protocol: String,
     val code: Int,
+    var redactedHeaders: List<HttpHeader>,
+    val tlsVersion: String? = null,
+    val cipherSuite: String? = null,
     val message: String,
-    val payloadSize: Long,
-    val contentType: String,
-    val headers: String,
-    val headersSize: Long,
-    val isResponseBodyEncoded: Boolean = false,
-    val responseImageData: ByteArray
+    val contentType: String? = null,
+    // TODO Can be computed
+    val tookMs: Long,
 )

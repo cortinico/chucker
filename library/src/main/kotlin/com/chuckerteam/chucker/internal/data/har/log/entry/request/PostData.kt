@@ -1,6 +1,6 @@
 package com.chuckerteam.chucker.internal.data.har.log.entry.request
 
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
 import com.chuckerteam.chucker.internal.data.har.log.entry.request.postdata.Params
 import com.google.gson.annotations.SerializedName
 
@@ -14,7 +14,7 @@ internal data class PostData(
     @SerializedName("comment") val comment: String? = null,
 ) {
     constructor(transaction: HttpTransaction) : this(
-        mimeType = transaction.requestContentType ?: "application/octet-stream",
+        mimeType = transaction.request?.contentType ?: "application/octet-stream",
         text = transaction.requestBody
     )
 }

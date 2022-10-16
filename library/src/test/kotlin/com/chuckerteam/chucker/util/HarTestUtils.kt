@@ -56,14 +56,14 @@ internal object HarTestUtils {
     }
 
     internal fun Context.createSingleTransactionHar(method: String): Har {
-        return HarUtils.fromHttpTransactions(
+        return HarUtils.fromHttpCalls(
             listOf(createTransaction(method)),
             Creator(getString(R.string.chucker_name), getString(R.string.chucker_version))
         )
     }
 
     internal fun Context.createListTransactionHar(): Har {
-        return HarUtils.fromHttpTransactions(
+        return HarUtils.fromHttpCalls(
             listOf(createTransaction("GET"), createTransaction("POST")),
             Creator(getString(R.string.chucker_name), getString(R.string.chucker_version))
         )

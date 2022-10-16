@@ -1,6 +1,6 @@
 package com.chuckerteam.chucker.internal.data.har.log.entry.response
 
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
 import com.google.gson.annotations.SerializedName
 
 // https://github.com/ahmadnassri/har-spec/blob/master/versions/1.2.md#content
@@ -14,8 +14,8 @@ internal data class Content(
     @SerializedName("comment") val comment: String? = null
 ) {
     constructor(transaction: HttpTransaction) : this(
-        size = transaction.responsePayloadSize,
-        mimeType = transaction.responseContentType ?: "application/octet-stream",
+        size = transaction.response?.body?.payloadSize ?: 0,
+        mimeType = transaction.response?.contentType ?: "application/octet-stream",
         text = transaction.responseBody,
     )
 }

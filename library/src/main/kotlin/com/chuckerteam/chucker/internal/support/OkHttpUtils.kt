@@ -72,13 +72,3 @@ internal fun Source.uncompress(headers: Headers) = when {
     headers.containsBrotli -> BrotliInputStream(this.buffer().inputStream()).source()
     else -> this
 }
-
-internal fun Headers.redact(names: Iterable<String>): Headers {
-    val builder = newBuilder()
-    for (name in names()) {
-        if (names.any { userHeader -> userHeader.equals(name, ignoreCase = true) }) {
-            builder[name] = "**"
-        }
-    }
-    return builder.build()
-}

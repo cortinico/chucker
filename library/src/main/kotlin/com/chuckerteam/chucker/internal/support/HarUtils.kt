@@ -1,6 +1,6 @@
 package com.chuckerteam.chucker.internal.support
 
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
 import com.chuckerteam.chucker.internal.data.har.Har
 import com.chuckerteam.chucker.internal.data.har.log.Creator
 import kotlinx.coroutines.Dispatchers

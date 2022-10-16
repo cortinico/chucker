@@ -1,6 +1,6 @@
 package com.chuckerteam.chucker.internal.data.har.log.entry
 
-import com.chuckerteam.chucker.internal.data.entity.HttpHeader
+import com.chuckerteam.chucker.api.datamodel.HttpHeader
 import com.google.gson.annotations.SerializedName
 
 // https://github.com/ahmadnassri/har-spec/blob/master/versions/1.2.md#headers

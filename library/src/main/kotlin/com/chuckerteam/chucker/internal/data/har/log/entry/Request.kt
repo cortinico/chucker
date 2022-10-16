@@ -1,6 +1,6 @@
 package com.chuckerteam.chucker.internal.data.har.log.entry
 
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
 import com.chuckerteam.chucker.internal.data.har.log.entry.request.PostData
 import com.chuckerteam.chucker.internal.data.har.log.entry.request.QueryString
 import com.google.gson.annotations.SerializedName
@@ -22,14 +22,14 @@ internal data class Request(
     @SerializedName("comment") val comment: String? = null
 ) {
     constructor(transaction: HttpTransaction) : this(
-        method = transaction.method ?: "",
-        url = transaction.url ?: "",
-        httpVersion = transaction.protocol ?: "",
+        method = transaction.request?.method ?: "",
+        url = transaction.request?.url ?: "",
+        httpVersion = transaction.response?.protocol ?: "",
         headers = transaction.getParsedRequestHeaders()?.map { Header(it) } ?: emptyList(),
-        queryString = transaction.url?.let { QueryString.fromUrl(it.toHttpUrl()) } ?: emptyList(),
+        queryString = transaction.request?.url?.let { QueryString.fromUrl(it.toHttpUrl()) } ?: emptyList(),
         postData = transaction.requestPayloadSize?.run { PostData(transaction) },
-        headersSize = transaction.requestHeadersSize ?: 0,
-        bodySize = transaction.requestPayloadSize ?: 0,
+        headersSize = transaction.request?.headersSize ?: 0,
+        bodySize = transaction.request?.payloadSize ?: 0,
         totalSize = transaction.getRequestTotalSize()
     )
 }

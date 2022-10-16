@@ -1,7 +1,7 @@
 package com.chuckerteam.chucker.internal.data.har.log
 
 import androidx.annotation.VisibleForTesting
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
 import com.chuckerteam.chucker.internal.data.har.log.entry.Cache
 import com.chuckerteam.chucker.internal.data.har.log.entry.Request
 import com.chuckerteam.chucker.internal.data.har.log.entry.Response
@@ -26,7 +26,7 @@ internal data class Entry(
     @SerializedName("comment") val comment: String? = null
 ) {
     constructor(transaction: HttpTransaction) : this(
-        startedDateTime = transaction.requestDate?.harFormatted().orEmpty(),
+        startedDateTime = transaction.request?.date?.harFormatted().orEmpty(),
         time = Timings(transaction).getTime(),
         request = Request(transaction),
         response = Response(transaction),

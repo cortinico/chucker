@@ -1,8 +1,8 @@
 package com.chuckerteam.chucker.internal.support
 
 import android.content.Context
-import com.chuckerteam.chucker.internal.data.entity.HttpHeader
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpHeader
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
 import okio.Buffer
 import okio.Source
 
@@ -11,22 +11,24 @@ internal class TransactionCurlCommandSharable(
 ) : Sharable {
     override fun toSharableContent(context: Context): Source = Buffer().apply {
         var compressed = false
-        writeUtf8("curl -X ${transaction.method}")
-        val headers = transaction.getParsedRequestHeaders()
+        writeUtf8("curl -X ${transaction.request?.method}")
 
-        headers?.forEach { header ->
-            if (isCompressed(header)) {
-                compressed = true
-            }
-            writeUtf8(" -H \"${header.name}: ${header.value}\"")
-        }
-
-        val requestBody = transaction.requestBody
-        if (!requestBody.isNullOrEmpty()) {
-            // try to keep to a single line and use a subshell to preserve any line breaks
-            writeUtf8(" --data $'${requestBody.replace("\n", "\\n")}'")
-        }
-        writeUtf8((if (compressed) " --compressed " else " ") + transaction.getFormattedUrl(encode = false))
+        // TODO Handle me
+//        val headers = transaction.getParsedRequestHeaders()
+//
+//        headers?.forEach { header ->
+//            if (isCompressed(header)) {
+//                compressed = true
+//            }
+//            writeUtf8(" -H \"${header.name}: ${header.value}\"")
+//        }
+//
+//        val requestBody = transaction.requestBody
+//        if (!requestBody.isNullOrEmpty()) {
+//            // try to keep to a single line and use a subshell to preserve any line breaks
+//            writeUtf8(" --data $'${requestBody.replace("\n", "\\n")}'")
+//        }
+//        writeUtf8((if (compressed) " --compressed " else " ") + transaction.getFormattedUrl(encode = false))
     }
 
     private fun isCompressed(header: HttpHeader): Boolean {

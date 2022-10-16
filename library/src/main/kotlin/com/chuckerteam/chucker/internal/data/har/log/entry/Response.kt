@@ -1,6 +1,6 @@
 package com.chuckerteam.chucker.internal.data.har.log.entry
 
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
 import com.chuckerteam.chucker.internal.data.har.log.entry.response.Content
 import com.google.gson.annotations.SerializedName
 
@@ -20,12 +20,12 @@ internal data class Response(
     @SerializedName("comment") val comment: String? = null
 ) {
     constructor(transaction: HttpTransaction) : this(
-        status = transaction.responseCode ?: 0,
-        statusText = transaction.responseMessage ?: "",
-        httpVersion = transaction.protocol ?: "",
+        status = transaction.response?.code ?: 0,
+        statusText = transaction.response?.message ?: "",
+        httpVersion = transaction.response?.protocol ?: "",
         headers = transaction.getParsedResponseHeaders()?.map { Header(it) } ?: emptyList(),
-        content = transaction.responsePayloadSize?.run { Content(transaction) },
-        headersSize = transaction.responseHeadersSize ?: 0,
+        content = transaction.response?.body?.payloadSize?.run { Content(transaction) },
+        headersSize = transaction.response?.headersSize ?: 0,
         bodySize = transaction.getHarResponseBodySize(),
         totalSize = transaction.getResponseTotalSize()
     )

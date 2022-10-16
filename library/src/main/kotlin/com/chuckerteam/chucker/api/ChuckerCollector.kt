@@ -3,7 +3,10 @@ package com.chuckerteam.chucker.api
 import android.content.Context
 import android.net.Uri
 import com.chuckerteam.chucker.R
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpTransactionStatus
+import com.chuckerteam.chucker.api.datamodel.HttpRequest
+import com.chuckerteam.chucker.api.datamodel.HttpResponse
 import com.chuckerteam.chucker.internal.data.har.log.Creator
 import com.chuckerteam.chucker.internal.data.repository.RepositoryProvider
 import com.chuckerteam.chucker.internal.support.HarUtils
@@ -18,7 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * The collector responsible of collecting data from a [ChuckerInterceptor] and
+ * The collector responsible for collecting data from a [ChuckerInterceptor] and
  * storing it/displaying push notification. You need to instantiate one of those and
  * provide it to
  *
@@ -41,20 +44,46 @@ public class ChuckerCollector @JvmOverloads constructor(
         RepositoryProvider.initialize(context)
     }
 
+    internal fun onHttpTransactionInitiated() : HttpTransaction {
+        val call = HttpTransaction()
+        scope.launch {
+            RepositoryProvider.transaction().insertTransaction(call)
+        }
+        return call
+    }
+
     /**
      * Call this method when you send an HTTP request.
-     * @param transaction The HTTP transaction sent
+     * @param request The HTTP request sent
      */
-    internal fun onRequestSent(transaction: HttpTransaction) {
+    internal fun onRequestSent(call: HttpTransaction, request: HttpRequest) {
+        call.request = request
+        call.status = HttpTransactionStatus.Requested
         scope.launch {
-            RepositoryProvider.transaction().insertTransaction(transaction)
+            RepositoryProvider.transaction().updateTransaction(call)
+            RepositoryProvider.transaction().insertRequest(request)
 
             if (showNotification) {
-                notificationHelper.show(transaction)
+                // TODO Handle me
+                notificationHelper.show(request)
             }
             withContext(Dispatchers.IO) {
                 retentionManager.doMaintenance()
             }
+        }
+    }
+
+    internal fun onRequestUpdated(request: HttpRequest) {
+        scope.launch {
+            RepositoryProvider.transaction().updateRequest(request)
+        }
+    }
+
+    internal fun onError(call: HttpTransaction, errorMessage: String) {
+        call.status = HttpTransactionStatus.Failed
+        call.errorMessage = errorMessage
+        scope.launch {
+            val updated = RepositoryProvider.transaction().updateTransaction(call)
         }
     }
 
@@ -63,12 +92,22 @@ public class ChuckerCollector @JvmOverloads constructor(
      * It must be called after [ChuckerCollector.onRequestSent].
      * @param transaction The sent HTTP transaction completed with the response
      */
-    internal fun onResponseReceived(transaction: HttpTransaction) {
+    internal fun onResponseReceived(call: HttpTransaction, response: HttpResponse) {
+        call.status = HttpTransactionStatus.Completed
+        call.response = response
         scope.launch {
-            val updated = RepositoryProvider.transaction().updateTransaction(transaction)
-            if (showNotification && updated > 0) {
-                notificationHelper.show(transaction)
-            }
+            RepositoryProvider.transaction().updateTransaction(call)
+            RepositoryProvider.transaction().insertResponse(response)
+//            if (showNotification && updated > 0) {
+//                 TODO Handle me
+//                notificationHelper.show(call.request!!)
+//            }
+        }
+    }
+
+    internal fun onResponseUpdated(response: HttpResponse) {
+        scope.launch {
+            RepositoryProvider.transaction().updateResponse(response)
         }
     }
 
@@ -116,5 +155,4 @@ public class ChuckerCollector @JvmOverloads constructor(
             fileName = "api_transactions.${exportFormat.extension}",
         )
     }
-
 }

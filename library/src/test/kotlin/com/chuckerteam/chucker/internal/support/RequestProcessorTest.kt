@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.BodyDecoder
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.internal.support.processors.RequestProcessor
 import io.mockk.every
 import io.mockk.mockk
 import okhttp3.Headers
@@ -39,7 +40,7 @@ internal class RequestProcessorTest {
             every { headers } returns headersGraphQl
         }
 
-        requestProcessor.process(request, transaction)
+        requestProcessor.processCall(request, transaction)
 
         assertEquals(operationName, transaction.graphQlOperationName)
         assertTrue(transaction.graphQlDetected)
@@ -51,7 +52,7 @@ internal class RequestProcessorTest {
         val request: Request = mockk(relaxed = true ) {
             every { url } returns "http://some/api/graphql".toHttpUrl()
         }
-        requestProcessor.process(request, transaction)
+        requestProcessor.processCall(request, transaction)
 
         assertTrue(transaction.graphQlDetected)
     }
@@ -62,7 +63,7 @@ internal class RequestProcessorTest {
         val request: Request = mockk(relaxed = true ) {
             every { url } returns "http://some/random/api".toHttpUrl()
         }
-        requestProcessor.process(request, transaction)
+        requestProcessor.processCall(request, transaction)
 
         assertFalse(transaction.graphQlDetected)
     }
@@ -73,7 +74,7 @@ internal class RequestProcessorTest {
         val request: Request = mockk(relaxed = true ) {
             every { url } returns "http://some.graphql.api".toHttpUrl()
         }
-        requestProcessor.process(request, transaction)
+        requestProcessor.processCall(request, transaction)
 
         assertTrue(transaction.graphQlDetected)
     }

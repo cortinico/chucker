@@ -1,16 +1,20 @@
 package com.chuckerteam.chucker.api.datamodel
 
 data class HttpRequest(
-    val id: Long,
-    val redactedHeaders: List<HttpHeader>,
-    val unredactedHeadersByteSize: Long,
+    val url: String,
+    val host: String,
+    val path: String,
+    val scheme: String,
+    // Mutable as it can be modified after the request has been sent by other interceptors
+    var headersSize: Long,
+    // Mutable as it can be modified after the request has been sent by other interceptors
+    var redactedHeaders: List<HttpHeader>,
+    val method: String,
     val body: HttpBody,
-    val date: Long,
+    // Mutable as it's updated once the response lands.
+    var date: Long,
     val payloadSize: Long,
-    val contentType: String,
-    val headers: String,
-    val headersSize: Long,
-    val isRequestBodyEncoded: Boolean = false,
-    val graphQlDetected: Boolean = false,
-    val graphQlOperationName: String
+    val contentType: String? = null,
+    val graphQlDetected: Boolean,
+    val graphQlOperationName: String? = null,
 )

@@ -6,14 +6,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.LongSparseArray
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.chuckerteam.chucker.R
 import com.chuckerteam.chucker.api.Chucker
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpRequest
 import com.chuckerteam.chucker.internal.ui.BaseChuckerActivity
-import java.util.HashSet
 
 internal class NotificationHelper(val context: Context) {
 
@@ -24,13 +22,12 @@ internal class NotificationHelper(val context: Context) {
 
         private const val BUFFER_SIZE = 10
         private const val INTENT_REQUEST_CODE = 11
-        private val transactionBuffer = LongSparseArray<HttpTransaction>()
-        private val transactionIdsSet = HashSet<Long>()
+
+        private val requestBuffer = mutableListOf<HttpRequest>()
 
         fun clearBuffer() {
-            synchronized(transactionBuffer) {
-                transactionBuffer.clear()
-                transactionIdsSet.clear()
+            synchronized(requestBuffer) {
+                requestBuffer.clear()
             }
         }
     }
@@ -58,18 +55,17 @@ internal class NotificationHelper(val context: Context) {
         }
     }
 
-    private fun addToBuffer(transaction: HttpTransaction) {
-        if (transaction.id == 0L) {
-            // Don't store Transactions with an invalid ID (0).
-            // Transaction with an Invalid ID will be shown twice in the notification
-            // with both the invalid and the valid ID and we want to avoid this.
-            return
-        }
-        synchronized(transactionBuffer) {
-            transactionIdsSet.add(transaction.id)
-            transactionBuffer.put(transaction.id, transaction)
-            if (transactionBuffer.size() > BUFFER_SIZE) {
-                transactionBuffer.removeAt(0)
+    private fun addToBuffer(request: HttpRequest) {
+//        if (transaction.id == 0L) {
+//            // Don't store Transactions with an invalid ID (0).
+//            // Transaction with an Invalid ID will be shown twice in the notification
+//            // with both the invalid and the valid ID and we want to avoid this.
+//            return
+//        }
+        synchronized(requestBuffer) {
+            requestBuffer.add(request)
+            if (requestBuffer.size > BUFFER_SIZE) {
+                requestBuffer.removeAt(0)
             }
         }
     }
@@ -82,8 +78,8 @@ internal class NotificationHelper(val context: Context) {
         }
     }
 
-    fun show(transaction: HttpTransaction) {
-        addToBuffer(transaction)
+    fun show(request: HttpRequest) {
+        addToBuffer(request)
         if (!BaseChuckerActivity.isInForeground && canShowNotifications()) {
             val builder =
                 NotificationCompat.Builder(context, TRANSACTIONS_CHANNEL_ID)
@@ -95,23 +91,24 @@ internal class NotificationHelper(val context: Context) {
                     .setAutoCancel(true)
                     .addAction(createClearAction())
             val inboxStyle = NotificationCompat.InboxStyle()
-            synchronized(transactionBuffer) {
+            synchronized(requestBuffer) {
                 var count = 0
-                (transactionBuffer.size() - 1 downTo 0).forEach { i ->
-                    val bufferedTransaction = transactionBuffer.valueAt(i)
-                    if ((bufferedTransaction != null) && count < BUFFER_SIZE) {
+                (requestBuffer.size - 1 downTo 0).forEach { i ->
+                    val bufferedRequest = requestBuffer[i]
+                    if (count < BUFFER_SIZE) {
                         if (count == 0) {
-                            builder.setContentText(bufferedTransaction.notificationText)
+                            // TODO Change to text
+                            builder.setContentText(bufferedRequest.path)
                         }
-                        inboxStyle.addLine(bufferedTransaction.notificationText)
+                        inboxStyle.addLine(bufferedRequest.path)
                     }
                     count++
                 }
                 builder.setStyle(inboxStyle)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    builder.setSubText(transactionIdsSet.size.toString())
+                    builder.setSubText(requestBuffer.size.toString())
                 } else {
-                    builder.setNumber(transactionIdsSet.size)
+                    builder.setNumber(requestBuffer.size)
                 }
             }
             notificationManager.notify(TRANSACTION_NOTIFICATION_ID, builder.build())
@@ -121,12 +118,12 @@ internal class NotificationHelper(val context: Context) {
     private fun createClearAction():
         NotificationCompat.Action {
         val clearTitle = context.getString(R.string.chucker_clear)
-        val clearTransactionsBroadcastIntent =
+        val clearRequestsBroadcastIntent =
             Intent(context, ClearDatabaseJobIntentServiceReceiver::class.java)
         val pendingBroadcastIntent = PendingIntent.getBroadcast(
             context,
             INTENT_REQUEST_CODE,
-            clearTransactionsBroadcastIntent,
+            clearRequestsBroadcastIntent,
             PendingIntent.FLAG_ONE_SHOT or immutableFlag()
         )
         return NotificationCompat.Action(
@@ -145,4 +142,12 @@ internal class NotificationHelper(val context: Context) {
     } else {
         0
     }
+
+//    private fun notificationMessage(httpRequest: HttpRequest): String {
+//        return when (httpRequest.status) {
+//            HttpTransaction.Status.Failed -> " ! ! !  $method $path"
+//            HttpTransaction.Status.Requested -> " . . .  $method $path"
+//            else -> "$responseCode $method $path"
+//        }
+//    }
 }

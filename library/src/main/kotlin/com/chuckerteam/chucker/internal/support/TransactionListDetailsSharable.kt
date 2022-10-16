@@ -2,7 +2,7 @@ package com.chuckerteam.chucker.internal.support
 
 import android.content.Context
 import com.chuckerteam.chucker.R.string
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
 import okio.Buffer
 import okio.Source
 

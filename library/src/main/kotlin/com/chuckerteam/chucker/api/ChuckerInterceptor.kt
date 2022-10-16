@@ -2,11 +2,10 @@ package com.chuckerteam.chucker.api
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
 import com.chuckerteam.chucker.internal.support.CacheDirectoryProvider
 import com.chuckerteam.chucker.internal.support.PlainTextDecoder
-import com.chuckerteam.chucker.internal.support.RequestProcessor
-import com.chuckerteam.chucker.internal.support.ResponseProcessor
+import com.chuckerteam.chucker.internal.support.processors.RequestProcessor
+import com.chuckerteam.chucker.internal.support.processors.ResponseProcessor
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -37,20 +36,18 @@ public class ChuckerInterceptor private constructor(
     private val collector = builder.collector ?: ChuckerCollector(builder.context)
 
     private val requestProcessor = RequestProcessor(
-        builder.context,
-        collector,
         builder.maxContentLength,
         headersToRedact,
         decoders,
     )
 
     private val responseProcessor = ResponseProcessor(
-        collector,
-        builder.cacheDirectoryProvider ?: CacheDirectoryProvider { builder.context.filesDir },
-        builder.maxContentLength,
-        headersToRedact,
-        builder.alwaysReadResponseBody,
-        decoders,
+            maxContentLength = builder.maxContentLength,
+            headersToRedact = headersToRedact,
+            bodyDecoders = decoders,
+            cacheDirectoryProvider = builder.cacheDirectoryProvider ?: CacheDirectoryProvider { builder.context.filesDir },
+            alwaysReadResponseBody = builder.alwaysReadResponseBody,
+            onResponseUpdatedCallback = { response -> collector.onResponseUpdated(response) }
     )
 
     init {
@@ -66,20 +63,26 @@ public class ChuckerInterceptor private constructor(
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val transaction = HttpTransaction()
-        val request = chain.request()
+        val entityCall = collector.onHttpTransactionInitiated()
 
-        requestProcessor.process(request, transaction)
+        val okHttpRequest = chain.request()
+        val entityRequest = requestProcessor.processCall(okHttpRequest)
+        collector.onRequestSent(entityCall, entityRequest)
 
-        val response = try {
-            chain.proceed(request)
+        val okHttpResponse = try {
+            chain.proceed(okHttpRequest)
         } catch (e: IOException) {
-            transaction.error = e.toString()
-            collector.onResponseReceived(transaction)
+            collector.onError(entityCall, e.toString())
             throw e
         }
 
-        return responseProcessor.process(response, transaction)
+        requestProcessor.processAfterResponse(okHttpResponse, entityRequest)
+        collector.onRequestUpdated(entityRequest)
+
+        val entityResponse = responseProcessor.processCall(okHttpResponse)
+        collector.onResponseReceived(entityCall, entityResponse)
+
+        return responseProcessor.multiCastResponse(okHttpResponse, entityResponse)
     }
 
     /**

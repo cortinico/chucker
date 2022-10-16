@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.chuckerteam.chucker.R
+import com.chuckerteam.chucker.api.datamodel.HttpTransaction
 import com.chuckerteam.chucker.databinding.ChuckerFragmentTransactionOverviewBinding
-import com.chuckerteam.chucker.internal.data.entity.HttpTransaction
 import com.chuckerteam.chucker.internal.support.combineLatest
 
 internal class TransactionOverviewFragment : Fragment() {
@@ -55,38 +55,39 @@ internal class TransactionOverviewFragment : Fragment() {
 
     private fun populateUI(transaction: HttpTransaction?, encodeUrl: Boolean) {
         with(overviewBinding) {
-            url.text = transaction?.getFormattedUrl(encodeUrl)
-            method.text = transaction?.method
-            protocol.text = transaction?.protocol
-            status.text = transaction?.status.toString()
-            response.text = transaction?.responseSummaryText
-            when (transaction?.isSsl) {
-                null -> {
-                    sslGroup.visibility = View.GONE
-                }
-                true -> {
-                    sslGroup.visibility = View.VISIBLE
-                    sslValue.setText(R.string.chucker_yes)
-                }
-                else -> {
-                    sslGroup.visibility = View.VISIBLE
-                    sslValue.setText(R.string.chucker_no)
-                }
-            }
-            if (transaction?.responseTlsVersion != null) {
-                tlsVersionValue.text = transaction.responseTlsVersion
-                tlsGroup.visibility = View.VISIBLE
-            }
-            if (transaction?.responseCipherSuite != null) {
-                cipherSuiteValue.text = transaction.responseCipherSuite
-                cipherSuiteGroup.visibility = View.VISIBLE
-            }
-            requestTime.text = transaction?.requestDateString
-            responseTime.text = transaction?.responseDateString
-            duration.text = transaction?.durationString
-            requestSize.text = transaction?.requestSizeString
-            responseSize.text = transaction?.responseSizeString
-            totalSize.text = transaction?.totalSizeString
+            // TODO Handle me
+//            url.text = transaction?.getFormattedUrl(encodeUrl)
+//            method.text = transaction?.method
+//            protocol.text = transaction?.protocol
+//            status.text = transaction?.status.toString()
+//            response.text = transaction?.responseSummaryText
+//            when (transaction?.isSsl) {
+//                null -> {
+//                    sslGroup.visibility = View.GONE
+//                }
+//                true -> {
+//                    sslGroup.visibility = View.VISIBLE
+//                    sslValue.setText(R.string.chucker_yes)
+//                }
+//                else -> {
+//                    sslGroup.visibility = View.VISIBLE
+//                    sslValue.setText(R.string.chucker_no)
+//                }
+//            }
+//            if (transaction?.responseTlsVersion != null) {
+//                tlsVersionValue.text = transaction.responseTlsVersion
+//                tlsGroup.visibility = View.VISIBLE
+//            }
+//            if (transaction?.responseCipherSuite != null) {
+//                cipherSuiteValue.text = transaction.responseCipherSuite
+//                cipherSuiteGroup.visibility = View.VISIBLE
+//            }
+//            requestTime.text = transaction?.requestDateString
+//            responseTime.text = transaction?.responseDateString
+//            duration.text = transaction?.durationString
+//            requestSize.text = transaction?.requestSizeString
+//            responseSize.text = transaction?.responseSizeString
+//            totalSize.text = transaction?.totalSizeString
         }
     }
 }
